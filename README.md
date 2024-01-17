@@ -1,0 +1,2 @@
+# Losspic
+Image compression
