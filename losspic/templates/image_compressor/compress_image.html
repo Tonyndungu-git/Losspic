@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Compressor</title>
+</head>
+<body>
+
+<h2>Compress Image</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Compress</button>
+</form>
+
+</body>
+</html>

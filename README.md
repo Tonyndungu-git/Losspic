@@ -1,2 +1,2 @@
 # Losspic
-Image compression
+Image compression using Single Value Decomposition SVD.
