@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-s^k8e&ks4(h!e1!$hx^d95rup1n^qpjkk)*)mhmql0tzv0ugj6
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+#AUTH_USER_MODEL = 'backend.CustomUser'
+LOGIN_URL = '/login/'
 
 # Application definition
 
@@ -37,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'backend'
+    'backend',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -122,3 +124,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        #'rest_framework.renderers.BrowsableAPIRenderer',  # Only for development
+    ),
+}
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]

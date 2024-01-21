@@ -1,38 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loss Web App</title>
-    <!-- Add your CSS styles or include Bootstrap CSS if not already included -->
-</head>
-<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-Dysen mb-4">
+  <a class="navbar-brand" href="/">Losspic</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Losspic</a>
-    </li>
-    <li class="d-none" class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Options</a>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Separated link</a></li>
-        </ul>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="http://127.0.0.1:8000/image_compressor/compress">Compression</a>
-    </li>
-    <li class="d-none" class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-    </li>
-</ul>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/image_compressor/compress">Compression <span class="sr-only">(current)</span></a>
+      </li>
+      {% if request.user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" href="/profile/edit">Edit</a>
+      </li>
 
-<!-- Your image compression content goes here -->
+      <li class="nav-item">
+        <a class="nav-link" href="/global">global</a>
+      </li>
+      
+      
+      {% else %}
 
-<!-- Add your JavaScript scripts or include Bootstrap JS if not already included -->
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/register">Register</a>
+        </li>
 
-</body>
-</html>
+      {% endif %}
+    
+      
+      
+    </ul>
+    <form class="form-inline my-2 my-lg-0 d-none">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>

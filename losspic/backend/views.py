@@ -1,18 +1,72 @@
-from django.shortcuts import render
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from rest_framework.decorators import api_view, permission_classes
+from .forms import ImageCompressionForm
+
+def login_view(request, *args, **kwargs):
+    form = AuthenticationForm(request, data=request.POST or None)
+    if form.is_valid():
+        user_ = form.get_user()
+        login(request, user_)
+        return redirect("/")
+    context = {
+        "form": form,
+        "btn_label": "Login",
+        "title": "Login"
+    }
+    return render(request, "accounts/auth.html", context)
+
+def logout_view(request, *args, **kwargs):
+    if request.method == "POST":
+        logout(request)
+        return redirect("/login")
+    context = {
+        "form": None,
+        "description": "Are you sure you want to logout?",
+        "btn_label": "Click to Confirm",
+        "title": "Logout"
+    }
+    return render(request, "accounts/auth.html", context)
+
+def register_view(request, *args, **kwargs):
+    form = UserCreationForm(request.POST or None)
+    if form.is_valid():
+        user = form.save(commit=True)
+        user.set_password(form.cleaned_data.get("password1"))
+        # send a confirmation email to verify their account
+        login(request, user)
+        return redirect("/")
+    context = {
+        "form": form,
+        "btn_label": "Register",
+        "title": "Register"
+    }
+    return render(request, "accounts/auth.html", context)
+def home(request):
+    return render(request, 'pages/home.html')
+
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .forms import ImageUploadForm
+from .forms import ImageCompressionForm
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from rest_framework import status
+from .models import CompressedImage
 from matplotlib.image import imread
 import numpy as np
 from io import BytesIO
 import base64
 from django.core.files.base import ContentFile
-from .models import CompressedImage
 from PIL import Image
 import matplotlib.pyplot as plt
+from rest_framework.permissions import IsAuthenticated
+from .forms import ImageUploadForm
 
-def home(request):
-    return render(request, 'pages/home.html')
+# Import other necessary modules
 
+@permission_classes([IsAuthenticated])
 def compress_image(request):
     if request.method == 'POST':
         form = ImageUploadForm(request.POST, request.FILES)
